@@ -15,31 +15,36 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}
 The  certwatch  program  is used to issue warning when an SSL certificate is
 about to expire.
 
-This is a redhat utility, modified to be output-agnostic.
-
 %prep
-%setup -q -c
-%patch
+%setup -q
+%patch -p 1
 
 %build 
-cc $RPM_OPT_FLAGS -Wall -Werror -I/usr/include/openssl \
-   $RPM_SOURCE_DIR/certwatch.c -o certwatch -lcrypto
+cc %optflags -Wall -Werror -I/usr/include/openssl \
+   certwatch.c -o certwatch -lcrypto
 
-xmlto man $RPM_SOURCE_DIR/certwatch.xml
+xmlto man certwatch.xml
 
 %install
 rm -rf %{buildroot}
 
 mkdir -p %{buildroot}%{_sysconfdir}/cron.daily \
+mkdir -p %{buildroot}%{_sysconfdir}/sysconfig \
          %{buildroot}%{_mandir}/man1 \
          %{buildroot}%{_bindir}
 
 # install certwatch
 install -c -m 755 certwatch %{buildroot}%{_bindir}/certwatch
-install -c -m 755 $RPM_SOURCE_DIR/certwatch.cron \
+install -c -m 755 certwatch.cron \
    %{buildroot}%{_sysconfdir}/cron.daily/certwatch
 install -c -m 644 certwatch.1 \
    %{buildroot}%{_mandir}/man1/certwatch.1
+
+cat > %{buildroot}%{_sysconfdir}/sysconfig/%{name} <<EOF
+# certwatch cron task options
+CERTS_DIR=/etc/pki/tls/certs
+CERTWATCH_OPTS=
+EOF
 
 %clean
 rm -rf %{buildroot}
@@ -47,6 +52,6 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %{_bindir}/*
-%{_sysconfdir}/cron.daily/certwatch
+%config(noreplace) %{_sysconfdir}/cron.daily/certwatch
+%config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %{_mandir}/man1/*
-
