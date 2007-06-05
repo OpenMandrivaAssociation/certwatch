@@ -1,10 +1,10 @@
 Name:       certwatch
 Version:    1.0
-Release:    %mkrel 1
+Release:    %mkrel 2
 Summary:    SSL certificate monitoring
 Source0:    %{name}-%{version}.tar.gz
 Patch0:     %{name}-1.0-mdv.patch
-Group:      Applications/System
+Group:      System/Servers
 License:    GPL
 BuildRequires:  openssl-devel
 BuildRequires:  xmlto
