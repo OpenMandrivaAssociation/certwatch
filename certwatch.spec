@@ -1,6 +1,6 @@
 Name:       certwatch
 Version:    1.0
-Release:    %mkrel 5
+Release:    %mkrel 6
 Summary:    SSL certificate monitoring
 Source0:    %{name}-%{version}.tar.gz
 Patch0:     %{name}-1.0-mdv.patch
