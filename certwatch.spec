@@ -9,7 +9,6 @@ License:    GPL
 BuildRequires:  openssl-devel
 BuildRequires:  xmlto
 Conflicts:      apache-mod_ssl <= 2.2.4-7mdv2008.0
-BuildRoot:      %{_tmppath}/%{name}-%{version}
 
 %description
 The  certwatch  program  is used to issue warning when an SSL certificate is
