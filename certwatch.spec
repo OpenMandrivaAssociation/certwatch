@@ -17,7 +17,7 @@ about to expire.
 
 %prep
 %setup -q
-%patch -p 1
+%patch0 -p 1
 
 %build 
 cc %optflags -Wall -Werror -I/usr/include/openssl \
