@@ -1,15 +1,15 @@
 Name:       certwatch
 Version:    1.0
-Release:    %mkrel 10
+Release:    10
 Summary:    SSL certificate monitoring
 Source0:    %{name}-%{version}.tar.gz
 Patch0:     %{name}-1.0-mdv.patch
 Group:      System/Servers
 License:    GPL
-BuildRequires:  openssl-devel
+BuildRequires:  pkgconfig(openssl)
 BuildRequires:  xmlto
 Conflicts:      apache-mod_ssl <= 2.2.4-7mdv2008.0
-BuildRoot:      %{_tmppath}/%{name}-%{version}
+
 
 %description
 The  certwatch  program  is used to issue warning when an SSL certificate is
@@ -20,14 +20,12 @@ about to expire.
 %patch0 -p 1
 
 %build 
-cc %optflags -Wall -Werror -I/usr/include/openssl \
+cc %optflags -Wall -I/usr/include/openssl \
    certwatch.c -o certwatch -lcrypto
 
 xmlto man certwatch.xml
 
 %install
-rm -rf %{buildroot}
-
 mkdir -p %{buildroot}%{_sysconfdir}/cron.daily \
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig \
          %{buildroot}%{_mandir}/man1 \
@@ -46,12 +44,10 @@ CERTS_DIR=/etc/pki/tls/certs
 CERTWATCH_OPTS=
 EOF
 
-%clean
-rm -rf %{buildroot}
 
 %files
-%defattr(-,root,root)
 %{_bindir}/*
 %config(noreplace) %{_sysconfdir}/cron.daily/certwatch
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %{_mandir}/man1/*
+
