@@ -1,7 +1,7 @@
 Summary:	SSL certificate monitoring
 Name:		certwatch
 Version:	1.0
-Release:	11
+Release:	12
 License:	GPLv2+
 Group:		System/Servers
 Source0:	%{name}-%{version}.tar.gz
