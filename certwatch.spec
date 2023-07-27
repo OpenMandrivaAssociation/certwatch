@@ -1,11 +1,10 @@
 Summary:	SSL certificate monitoring
 Name:		certwatch
-Version:	1.0
-Release:	12
+Version:	1.2
+Release:	1
 License:	GPLv2+
 Group:		System/Servers
-Source0:	%{name}-%{version}.tar.gz
-Patch0:		%{name}-1.0-mdv.patch
+Source0:	https://github.com/notroj/certwatch/archive/refs/tags/v%{version}.tar.gz
 BuildRequires:	docbook-style-xsl
 BuildRequires:	xmlto
 BuildRequires:	pkgconfig(openssl)
@@ -23,11 +22,10 @@ about to expire.
 #----------------------------------------------------------------------------
 
 %prep
-%setup -q
-%patch0 -p 1
+%autosetup -p1
 
 %build
-cc %{optflags} -Wall -I/usr/include/openssl \
+%{__cc} %{optflags} -Wall -I/usr/include/openssl \
 	certwatch.c -o certwatch -lcrypto
 
 xmlto man certwatch.xml
